@@ -1,0 +1,4 @@
+2021-03-12 23:06:48 下午 [Thread: main][ Class:com.xt.bihu.util.GenerateFakeData >> Method: com.xt.bihu.util.GenerateFakeData.generateAnswer(GenerateFakeData.java:95) ]
+INFO:Answer(answerId=null, answerLikedCount=214, answerCommentCount=18, answerCreateTime=null, answerUpdateTime=null, questionId=630, userId=234, answerContent=862这是答案内容2021-03-12 23:06:48)
+2021-03-12 23:56:05 下午 [Thread: main][ Class:com.xt.bihu.util.GenerateFakeData >> Method: com.xt.bihu.util.GenerateFakeData.generateAnswer(GenerateFakeData.java:95) ]
+INFO:Answer(answerId=null, answerLikedCount=174, answerCommentCount=19, answerCreateTime=null, answerUpdateTime=null, questionId=183, userId=253, answerContent=619这是答案内容2021-03-12 23:56:05)

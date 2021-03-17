@@ -1,0 +1,431 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xt.bihu.mapper.UserMapper" >
+  <resultMap id="BaseResultMap" type="com.xt.bihu.entity.User" >
+    <id column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="user_password" property="userPassword" jdbcType="VARCHAR" />
+    <result column="user_create_time" property="userCreateTime" jdbcType="TIMESTAMP" />
+    <result column="user_avatar_url" property="userAvatarUrl" jdbcType="VARCHAR" />
+    <result column="user_gender" property="userGender" jdbcType="VARCHAR" />
+    <result column="user_simple_desc" property="userSimpleDesc" jdbcType="VARCHAR" />
+    <result column="user_liked_count" property="userLikedCount" jdbcType="INTEGER" />
+    <result column="user_collected_count" property="userCollectedCount" jdbcType="INTEGER" />
+    <result column="user_followed_count" property="userFollowedCount" jdbcType="INTEGER" />
+    <result column="user_collect_count" property="userCollectCount" jdbcType="INTEGER" />
+    <result column="user_follow_count" property="userFollowCount" jdbcType="INTEGER" />
+    <result column="user_scanned_count" property="userScannedCount" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.xt.bihu.entity.User" extends="BaseResultMap" >
+    <result column="user_full_desc" property="userFullDesc" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    user_id, email, user_name, user_password, user_create_time, user_avatar_url, user_gender, 
+    user_simple_desc, user_liked_count, user_collected_count, user_followed_count, user_collect_count, 
+    user_follow_count, user_scanned_count
+  </sql>
+  <sql id="Blob_Column_List" >
+    user_full_desc
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.xt.bihu.entity.UserExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from user
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.xt.bihu.entity.UserExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from user
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from user
+    where user_id = #{userId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from user
+    where user_id = #{userId,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.xt.bihu.entity.UserExample" >
+    delete from user
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.xt.bihu.entity.User" useGeneratedKeys="true" keyProperty="userID">
+    insert into user (user_id, email, user_name, 
+      user_password, user_create_time, user_avatar_url, 
+      user_gender, user_simple_desc, user_liked_count, 
+      user_collected_count, user_followed_count, 
+      user_collect_count, user_follow_count, user_scanned_count, 
+      user_full_desc)
+    values (#{userId,jdbcType=BIGINT}, #{email,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, 
+      #{userPassword,jdbcType=VARCHAR}, #{userCreateTime,jdbcType=TIMESTAMP}, #{userAvatarUrl,jdbcType=VARCHAR}, 
+      #{userGender,jdbcType=VARCHAR}, #{userSimpleDesc,jdbcType=VARCHAR}, #{userLikedCount,jdbcType=INTEGER}, 
+      #{userCollectedCount,jdbcType=INTEGER}, #{userFollowedCount,jdbcType=INTEGER}, 
+      #{userCollectCount,jdbcType=INTEGER}, #{userFollowCount,jdbcType=INTEGER}, #{userScannedCount,jdbcType=INTEGER}, 
+      #{userFullDesc,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xt.bihu.entity.User" useGeneratedKeys="true" keyProperty="userID">
+    insert into user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="email != null" >
+        email,
+      </if>
+      <if test="userName != null" >
+        user_name,
+      </if>
+      <if test="userPassword != null" >
+        user_password,
+      </if>
+      <if test="userCreateTime != null" >
+        user_create_time,
+      </if>
+      <if test="userAvatarUrl != null" >
+        user_avatar_url,
+      </if>
+      <if test="userGender != null" >
+        user_gender,
+      </if>
+      <if test="userSimpleDesc != null" >
+        user_simple_desc,
+      </if>
+      <if test="userLikedCount != null" >
+        user_liked_count,
+      </if>
+      <if test="userCollectedCount != null" >
+        user_collected_count,
+      </if>
+      <if test="userFollowedCount != null" >
+        user_followed_count,
+      </if>
+      <if test="userCollectCount != null" >
+        user_collect_count,
+      </if>
+      <if test="userFollowCount != null" >
+        user_follow_count,
+      </if>
+      <if test="userScannedCount != null" >
+        user_scanned_count,
+      </if>
+      <if test="userFullDesc != null" >
+        user_full_desc,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="userPassword != null" >
+        #{userPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="userCreateTime != null" >
+        #{userCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userAvatarUrl != null" >
+        #{userAvatarUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="userGender != null" >
+        #{userGender,jdbcType=VARCHAR},
+      </if>
+      <if test="userSimpleDesc != null" >
+        #{userSimpleDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="userLikedCount != null" >
+        #{userLikedCount,jdbcType=INTEGER},
+      </if>
+      <if test="userCollectedCount != null" >
+        #{userCollectedCount,jdbcType=INTEGER},
+      </if>
+      <if test="userFollowedCount != null" >
+        #{userFollowedCount,jdbcType=INTEGER},
+      </if>
+      <if test="userCollectCount != null" >
+        #{userCollectCount,jdbcType=INTEGER},
+      </if>
+      <if test="userFollowCount != null" >
+        #{userFollowCount,jdbcType=INTEGER},
+      </if>
+      <if test="userScannedCount != null" >
+        #{userScannedCount,jdbcType=INTEGER},
+      </if>
+      <if test="userFullDesc != null" >
+        #{userFullDesc,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.xt.bihu.entity.UserExample" resultType="java.lang.Integer" >
+    select count(*) from user
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update user
+    <set >
+      <if test="record.userId != null" >
+        user_id = #{record.userId,jdbcType=BIGINT},
+      </if>
+      <if test="record.email != null" >
+        email = #{record.email,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userName != null" >
+        user_name = #{record.userName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userPassword != null" >
+        user_password = #{record.userPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userCreateTime != null" >
+        user_create_time = #{record.userCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.userAvatarUrl != null" >
+        user_avatar_url = #{record.userAvatarUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userGender != null" >
+        user_gender = #{record.userGender,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userSimpleDesc != null" >
+        user_simple_desc = #{record.userSimpleDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userLikedCount != null" >
+        user_liked_count = #{record.userLikedCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.userCollectedCount != null" >
+        user_collected_count = #{record.userCollectedCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.userFollowedCount != null" >
+        user_followed_count = #{record.userFollowedCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.userCollectCount != null" >
+        user_collect_count = #{record.userCollectCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.userFollowCount != null" >
+        user_follow_count = #{record.userFollowCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.userScannedCount != null" >
+        user_scanned_count = #{record.userScannedCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.userFullDesc != null" >
+        user_full_desc = #{record.userFullDesc,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update user
+    set user_id = #{record.userId,jdbcType=BIGINT},
+      email = #{record.email,jdbcType=VARCHAR},
+      user_name = #{record.userName,jdbcType=VARCHAR},
+      user_password = #{record.userPassword,jdbcType=VARCHAR},
+      user_create_time = #{record.userCreateTime,jdbcType=TIMESTAMP},
+      user_avatar_url = #{record.userAvatarUrl,jdbcType=VARCHAR},
+      user_gender = #{record.userGender,jdbcType=VARCHAR},
+      user_simple_desc = #{record.userSimpleDesc,jdbcType=VARCHAR},
+      user_liked_count = #{record.userLikedCount,jdbcType=INTEGER},
+      user_collected_count = #{record.userCollectedCount,jdbcType=INTEGER},
+      user_followed_count = #{record.userFollowedCount,jdbcType=INTEGER},
+      user_collect_count = #{record.userCollectCount,jdbcType=INTEGER},
+      user_follow_count = #{record.userFollowCount,jdbcType=INTEGER},
+      user_scanned_count = #{record.userScannedCount,jdbcType=INTEGER},
+      user_full_desc = #{record.userFullDesc,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update user
+    set user_id = #{record.userId,jdbcType=BIGINT},
+      email = #{record.email,jdbcType=VARCHAR},
+      user_name = #{record.userName,jdbcType=VARCHAR},
+      user_password = #{record.userPassword,jdbcType=VARCHAR},
+      user_create_time = #{record.userCreateTime,jdbcType=TIMESTAMP},
+      user_avatar_url = #{record.userAvatarUrl,jdbcType=VARCHAR},
+      user_gender = #{record.userGender,jdbcType=VARCHAR},
+      user_simple_desc = #{record.userSimpleDesc,jdbcType=VARCHAR},
+      user_liked_count = #{record.userLikedCount,jdbcType=INTEGER},
+      user_collected_count = #{record.userCollectedCount,jdbcType=INTEGER},
+      user_followed_count = #{record.userFollowedCount,jdbcType=INTEGER},
+      user_collect_count = #{record.userCollectCount,jdbcType=INTEGER},
+      user_follow_count = #{record.userFollowCount,jdbcType=INTEGER},
+      user_scanned_count = #{record.userScannedCount,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xt.bihu.entity.User" >
+    update user
+    <set >
+      <if test="email != null" >
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null" >
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="userPassword != null" >
+        user_password = #{userPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="userCreateTime != null" >
+        user_create_time = #{userCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userAvatarUrl != null" >
+        user_avatar_url = #{userAvatarUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="userGender != null" >
+        user_gender = #{userGender,jdbcType=VARCHAR},
+      </if>
+      <if test="userSimpleDesc != null" >
+        user_simple_desc = #{userSimpleDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="userLikedCount != null" >
+        user_liked_count = #{userLikedCount,jdbcType=INTEGER},
+      </if>
+      <if test="userCollectedCount != null" >
+        user_collected_count = #{userCollectedCount,jdbcType=INTEGER},
+      </if>
+      <if test="userFollowedCount != null" >
+        user_followed_count = #{userFollowedCount,jdbcType=INTEGER},
+      </if>
+      <if test="userCollectCount != null" >
+        user_collect_count = #{userCollectCount,jdbcType=INTEGER},
+      </if>
+      <if test="userFollowCount != null" >
+        user_follow_count = #{userFollowCount,jdbcType=INTEGER},
+      </if>
+      <if test="userScannedCount != null" >
+        user_scanned_count = #{userScannedCount,jdbcType=INTEGER},
+      </if>
+      <if test="userFullDesc != null" >
+        user_full_desc = #{userFullDesc,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where user_id = #{userId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.xt.bihu.entity.User" >
+    update user
+    set email = #{email,jdbcType=VARCHAR},
+      user_name = #{userName,jdbcType=VARCHAR},
+      user_password = #{userPassword,jdbcType=VARCHAR},
+      user_create_time = #{userCreateTime,jdbcType=TIMESTAMP},
+      user_avatar_url = #{userAvatarUrl,jdbcType=VARCHAR},
+      user_gender = #{userGender,jdbcType=VARCHAR},
+      user_simple_desc = #{userSimpleDesc,jdbcType=VARCHAR},
+      user_liked_count = #{userLikedCount,jdbcType=INTEGER},
+      user_collected_count = #{userCollectedCount,jdbcType=INTEGER},
+      user_followed_count = #{userFollowedCount,jdbcType=INTEGER},
+      user_collect_count = #{userCollectCount,jdbcType=INTEGER},
+      user_follow_count = #{userFollowCount,jdbcType=INTEGER},
+      user_scanned_count = #{userScannedCount,jdbcType=INTEGER},
+      user_full_desc = #{userFullDesc,jdbcType=LONGVARCHAR}
+    where user_id = #{userId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xt.bihu.entity.User" >
+    update user
+    set email = #{email,jdbcType=VARCHAR},
+      user_name = #{userName,jdbcType=VARCHAR},
+      user_password = #{userPassword,jdbcType=VARCHAR},
+      user_create_time = #{userCreateTime,jdbcType=TIMESTAMP},
+      user_avatar_url = #{userAvatarUrl,jdbcType=VARCHAR},
+      user_gender = #{userGender,jdbcType=VARCHAR},
+      user_simple_desc = #{userSimpleDesc,jdbcType=VARCHAR},
+      user_liked_count = #{userLikedCount,jdbcType=INTEGER},
+      user_collected_count = #{userCollectedCount,jdbcType=INTEGER},
+      user_followed_count = #{userFollowedCount,jdbcType=INTEGER},
+      user_collect_count = #{userCollectCount,jdbcType=INTEGER},
+      user_follow_count = #{userFollowCount,jdbcType=INTEGER},
+      user_scanned_count = #{userScannedCount,jdbcType=INTEGER}
+    where user_id = #{userId,jdbcType=BIGINT}
+  </update>
+</mapper>

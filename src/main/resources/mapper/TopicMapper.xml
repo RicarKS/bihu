@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xt.bihu.mapper.TopicMapper" >
+  <resultMap id="BaseResultMap" type="com.xt.bihu.entity.Topic" >
+    <id column="topic_id" property="topicId" jdbcType="BIGINT" />
+    <result column="topic_name" property="topicName" jdbcType="VARCHAR" />
+    <result column="topic_image_url" property="topicImageUrl" jdbcType="VARCHAR" />
+    <result column="topic_followed_count" property="topicFollowedCount" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.xt.bihu.entity.Topic" extends="BaseResultMap" >
+    <result column="topic_desc" property="topicDesc" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    topic_id, topic_name, topic_image_url, topic_followed_count
+  </sql>
+  <sql id="Blob_Column_List" >
+    topic_desc
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.xt.bihu.entity.TopicExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from topic
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.xt.bihu.entity.TopicExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from topic
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from topic
+    where topic_id = #{topicId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from topic
+    where topic_id = #{topicId,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.xt.bihu.entity.TopicExample" >
+    delete from topic
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.xt.bihu.entity.Topic" useGeneratedKeys="true" keyProperty="topicId">
+    insert into topic (topic_id, topic_name, topic_image_url, 
+      topic_followed_count, topic_desc)
+    values (#{topicId,jdbcType=BIGINT}, #{topicName,jdbcType=VARCHAR}, #{topicImageUrl,jdbcType=VARCHAR}, 
+      #{topicFollowedCount,jdbcType=INTEGER}, #{topicDesc,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xt.bihu.entity.Topic" useGeneratedKeys="true" keyProperty="topicId">
+    insert into topic
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="topicId != null" >
+        topic_id,
+      </if>
+      <if test="topicName != null" >
+        topic_name,
+      </if>
+      <if test="topicImageUrl != null" >
+        topic_image_url,
+      </if>
+      <if test="topicFollowedCount != null" >
+        topic_followed_count,
+      </if>
+      <if test="topicDesc != null" >
+        topic_desc,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="topicId != null" >
+        #{topicId,jdbcType=BIGINT},
+      </if>
+      <if test="topicName != null" >
+        #{topicName,jdbcType=VARCHAR},
+      </if>
+      <if test="topicImageUrl != null" >
+        #{topicImageUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="topicFollowedCount != null" >
+        #{topicFollowedCount,jdbcType=INTEGER},
+      </if>
+      <if test="topicDesc != null" >
+        #{topicDesc,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.xt.bihu.entity.TopicExample" resultType="java.lang.Integer" >
+    select count(*) from topic
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update topic
+    <set >
+      <if test="record.topicId != null" >
+        topic_id = #{record.topicId,jdbcType=BIGINT},
+      </if>
+      <if test="record.topicName != null" >
+        topic_name = #{record.topicName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.topicImageUrl != null" >
+        topic_image_url = #{record.topicImageUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.topicFollowedCount != null" >
+        topic_followed_count = #{record.topicFollowedCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.topicDesc != null" >
+        topic_desc = #{record.topicDesc,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update topic
+    set topic_id = #{record.topicId,jdbcType=BIGINT},
+      topic_name = #{record.topicName,jdbcType=VARCHAR},
+      topic_image_url = #{record.topicImageUrl,jdbcType=VARCHAR},
+      topic_followed_count = #{record.topicFollowedCount,jdbcType=INTEGER},
+      topic_desc = #{record.topicDesc,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update topic
+    set topic_id = #{record.topicId,jdbcType=BIGINT},
+      topic_name = #{record.topicName,jdbcType=VARCHAR},
+      topic_image_url = #{record.topicImageUrl,jdbcType=VARCHAR},
+      topic_followed_count = #{record.topicFollowedCount,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xt.bihu.entity.Topic" >
+    update topic
+    <set >
+      <if test="topicName != null" >
+        topic_name = #{topicName,jdbcType=VARCHAR},
+      </if>
+      <if test="topicImageUrl != null" >
+        topic_image_url = #{topicImageUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="topicFollowedCount != null" >
+        topic_followed_count = #{topicFollowedCount,jdbcType=INTEGER},
+      </if>
+      <if test="topicDesc != null" >
+        topic_desc = #{topicDesc,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where topic_id = #{topicId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.xt.bihu.entity.Topic" >
+    update topic
+    set topic_name = #{topicName,jdbcType=VARCHAR},
+      topic_image_url = #{topicImageUrl,jdbcType=VARCHAR},
+      topic_followed_count = #{topicFollowedCount,jdbcType=INTEGER},
+      topic_desc = #{topicDesc,jdbcType=LONGVARCHAR}
+    where topic_id = #{topicId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xt.bihu.entity.Topic" >
+    update topic
+    set topic_name = #{topicName,jdbcType=VARCHAR},
+      topic_image_url = #{topicImageUrl,jdbcType=VARCHAR},
+      topic_followed_count = #{topicFollowedCount,jdbcType=INTEGER}
+    where topic_id = #{topicId,jdbcType=BIGINT}
+  </update>
+</mapper>

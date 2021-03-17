@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xt.bihu.mapper.QuestionCommentMapper" >
+  <resultMap id="BaseResultMap" type="com.xt.bihu.entity.QuestionComment" >
+    <id column="question_comment_id" property="questionCommentId" jdbcType="BIGINT" />
+    <result column="question_comment_liked_count" property="questionCommentLikedCount" jdbcType="INTEGER" />
+    <result column="question_comment_create_time" property="questionCommentCreateTime" jdbcType="TIMESTAMP" />
+    <result column="question_comment_at_user_id" property="questionCommentAtUserId" jdbcType="BIGINT" />
+    <result column="question_comment_at_user_name" property="questionCommentAtUserName" jdbcType="VARCHAR" />
+    <result column="question_id" property="questionId" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.xt.bihu.entity.QuestionComment" extends="BaseResultMap" >
+    <result column="question_comment_content" property="questionCommentContent" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    question_comment_id, question_comment_liked_count, question_comment_create_time, 
+    question_comment_at_user_id, question_comment_at_user_name, question_id, user_id
+  </sql>
+  <sql id="Blob_Column_List" >
+    question_comment_content
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.xt.bihu.entity.QuestionCommentExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from question_comment
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.xt.bihu.entity.QuestionCommentExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from question_comment
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from question_comment
+    where question_comment_id = #{questionCommentId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from question_comment
+    where question_comment_id = #{questionCommentId,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.xt.bihu.entity.QuestionCommentExample" >
+    delete from question_comment
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.xt.bihu.entity.QuestionComment" useGeneratedKeys="true"
+          keyProperty="questionCommentId">
+    insert into question_comment (question_comment_id, question_comment_liked_count, 
+      question_comment_create_time, question_comment_at_user_id, 
+      question_comment_at_user_name, question_id, user_id, 
+      question_comment_content)
+    values (#{questionCommentId,jdbcType=BIGINT}, #{questionCommentLikedCount,jdbcType=INTEGER}, 
+      #{questionCommentCreateTime,jdbcType=TIMESTAMP}, #{questionCommentAtUserId,jdbcType=BIGINT}, 
+      #{questionCommentAtUserName,jdbcType=VARCHAR}, #{questionId,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, 
+      #{questionCommentContent,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xt.bihu.entity.QuestionComment" useGeneratedKeys="true"
+          keyProperty="questionCommentId">
+    insert into question_comment
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="questionCommentId != null" >
+        question_comment_id,
+      </if>
+      <if test="questionCommentLikedCount != null" >
+        question_comment_liked_count,
+      </if>
+      <if test="questionCommentCreateTime != null" >
+        question_comment_create_time,
+      </if>
+      <if test="questionCommentAtUserId != null" >
+        question_comment_at_user_id,
+      </if>
+      <if test="questionCommentAtUserName != null" >
+        question_comment_at_user_name,
+      </if>
+      <if test="questionId != null" >
+        question_id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="questionCommentContent != null" >
+        question_comment_content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="questionCommentId != null" >
+        #{questionCommentId,jdbcType=BIGINT},
+      </if>
+      <if test="questionCommentLikedCount != null" >
+        #{questionCommentLikedCount,jdbcType=INTEGER},
+      </if>
+      <if test="questionCommentCreateTime != null" >
+        #{questionCommentCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="questionCommentAtUserId != null" >
+        #{questionCommentAtUserId,jdbcType=BIGINT},
+      </if>
+      <if test="questionCommentAtUserName != null" >
+        #{questionCommentAtUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="questionId != null" >
+        #{questionId,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="questionCommentContent != null" >
+        #{questionCommentContent,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.xt.bihu.entity.QuestionCommentExample" resultType="java.lang.Integer" >
+    select count(*) from question_comment
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update question_comment
+    <set >
+      <if test="record.questionCommentId != null" >
+        question_comment_id = #{record.questionCommentId,jdbcType=BIGINT},
+      </if>
+      <if test="record.questionCommentLikedCount != null" >
+        question_comment_liked_count = #{record.questionCommentLikedCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.questionCommentCreateTime != null" >
+        question_comment_create_time = #{record.questionCommentCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.questionCommentAtUserId != null" >
+        question_comment_at_user_id = #{record.questionCommentAtUserId,jdbcType=BIGINT},
+      </if>
+      <if test="record.questionCommentAtUserName != null" >
+        question_comment_at_user_name = #{record.questionCommentAtUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.questionId != null" >
+        question_id = #{record.questionId,jdbcType=BIGINT},
+      </if>
+      <if test="record.userId != null" >
+        user_id = #{record.userId,jdbcType=BIGINT},
+      </if>
+      <if test="record.questionCommentContent != null" >
+        question_comment_content = #{record.questionCommentContent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update question_comment
+    set question_comment_id = #{record.questionCommentId,jdbcType=BIGINT},
+      question_comment_liked_count = #{record.questionCommentLikedCount,jdbcType=INTEGER},
+      question_comment_create_time = #{record.questionCommentCreateTime,jdbcType=TIMESTAMP},
+      question_comment_at_user_id = #{record.questionCommentAtUserId,jdbcType=BIGINT},
+      question_comment_at_user_name = #{record.questionCommentAtUserName,jdbcType=VARCHAR},
+      question_id = #{record.questionId,jdbcType=BIGINT},
+      user_id = #{record.userId,jdbcType=BIGINT},
+      question_comment_content = #{record.questionCommentContent,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update question_comment
+    set question_comment_id = #{record.questionCommentId,jdbcType=BIGINT},
+      question_comment_liked_count = #{record.questionCommentLikedCount,jdbcType=INTEGER},
+      question_comment_create_time = #{record.questionCommentCreateTime,jdbcType=TIMESTAMP},
+      question_comment_at_user_id = #{record.questionCommentAtUserId,jdbcType=BIGINT},
+      question_comment_at_user_name = #{record.questionCommentAtUserName,jdbcType=VARCHAR},
+      question_id = #{record.questionId,jdbcType=BIGINT},
+      user_id = #{record.userId,jdbcType=BIGINT}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xt.bihu.entity.QuestionComment" >
+    update question_comment
+    <set >
+      <if test="questionCommentLikedCount != null" >
+        question_comment_liked_count = #{questionCommentLikedCount,jdbcType=INTEGER},
+      </if>
+      <if test="questionCommentCreateTime != null" >
+        question_comment_create_time = #{questionCommentCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="questionCommentAtUserId != null" >
+        question_comment_at_user_id = #{questionCommentAtUserId,jdbcType=BIGINT},
+      </if>
+      <if test="questionCommentAtUserName != null" >
+        question_comment_at_user_name = #{questionCommentAtUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="questionId != null" >
+        question_id = #{questionId,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="questionCommentContent != null" >
+        question_comment_content = #{questionCommentContent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where question_comment_id = #{questionCommentId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.xt.bihu.entity.QuestionComment" >
+    update question_comment
+    set question_comment_liked_count = #{questionCommentLikedCount,jdbcType=INTEGER},
+      question_comment_create_time = #{questionCommentCreateTime,jdbcType=TIMESTAMP},
+      question_comment_at_user_id = #{questionCommentAtUserId,jdbcType=BIGINT},
+      question_comment_at_user_name = #{questionCommentAtUserName,jdbcType=VARCHAR},
+      question_id = #{questionId,jdbcType=BIGINT},
+      user_id = #{userId,jdbcType=BIGINT},
+      question_comment_content = #{questionCommentContent,jdbcType=LONGVARCHAR}
+    where question_comment_id = #{questionCommentId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xt.bihu.entity.QuestionComment" >
+    update question_comment
+    set question_comment_liked_count = #{questionCommentLikedCount,jdbcType=INTEGER},
+      question_comment_create_time = #{questionCommentCreateTime,jdbcType=TIMESTAMP},
+      question_comment_at_user_id = #{questionCommentAtUserId,jdbcType=BIGINT},
+      question_comment_at_user_name = #{questionCommentAtUserName,jdbcType=VARCHAR},
+      question_id = #{questionId,jdbcType=BIGINT},
+      user_id = #{userId,jdbcType=BIGINT}
+    where question_comment_id = #{questionCommentId,jdbcType=BIGINT}
+  </update>
+</mapper>
